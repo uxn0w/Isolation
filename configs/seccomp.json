@@ -1,0 +1,370 @@
+{
+  "defaultAction": "SCMP_ACT_ERRNO",
+  "defaultErrnoRet": 1,
+  "syscalls": [
+    {
+      "comment": "Files, profiles, extensions and shared workspace.",
+      "names": [
+        "read",
+        "write",
+        "readv",
+        "writev",
+        "pread64",
+        "pwrite64",
+        "preadv",
+        "pwritev",
+        "preadv2",
+        "pwritev2",
+        "close",
+        "close_range",
+        "open",
+        "openat",
+        "openat2",
+        "creat",
+        "dup",
+        "dup2",
+        "dup3",
+        "fcntl",
+        "flock",
+        "lseek",
+        "stat",
+        "lstat",
+        "fstat",
+        "newfstatat",
+        "statx",
+        "statfs",
+        "fstatfs",
+        "access",
+        "faccessat",
+        "faccessat2",
+        "getdents",
+        "getdents64",
+        "readlink",
+        "readlinkat",
+        "getcwd",
+        "chdir",
+        "fchdir",
+        "mkdir",
+        "mkdirat",
+        "rmdir",
+        "unlink",
+        "unlinkat",
+        "rename",
+        "renameat",
+        "renameat2",
+        "link",
+        "linkat",
+        "symlink",
+        "symlinkat",
+        "chmod",
+        "fchmod",
+        "fchmodat",
+        "fchmodat2",
+        "chown",
+        "fchown",
+        "fchownat",
+        "lchown",
+        "umask",
+        "truncate",
+        "ftruncate",
+        "fallocate",
+        "fsync",
+        "fdatasync",
+        "sync_file_range",
+        "copy_file_range",
+        "sendfile",
+        "splice",
+        "tee",
+        "utime",
+        "utimes",
+        "utimensat",
+        "futimesat",
+        "fadvise64",
+        "readahead",
+        "getxattr",
+        "lgetxattr",
+        "fgetxattr",
+        "listxattr",
+        "llistxattr",
+        "flistxattr",
+        "setxattr",
+        "lsetxattr",
+        "fsetxattr",
+        "removexattr",
+        "lremovexattr",
+        "fremovexattr"
+      ],
+      "action": "SCMP_ACT_ALLOW"
+    },
+    {
+      "comment": "Processes, threads, signals and terminal jobs.",
+      "names": [
+        "execve",
+        "execveat",
+        "fork",
+        "vfork",
+        "exit",
+        "exit_group",
+        "wait4",
+        "waitid",
+        "getpid",
+        "getppid",
+        "gettid",
+        "getuid",
+        "geteuid",
+        "getgid",
+        "getegid",
+        "getgroups",
+        "getresuid",
+        "getresgid",
+        "setuid",
+        "setgid",
+        "setreuid",
+        "setregid",
+        "setresuid",
+        "setresgid",
+        "setgroups",
+        "setfsuid",
+        "setfsgid",
+        "getsid",
+        "setsid",
+        "getpgid",
+        "setpgid",
+        "getpgrp",
+        "kill",
+        "tgkill",
+        "tkill",
+        "rt_sigaction",
+        "rt_sigprocmask",
+        "rt_sigreturn",
+        "rt_sigtimedwait",
+        "rt_sigsuspend",
+        "rt_sigpending",
+        "rt_sigqueueinfo",
+        "rt_tgsigqueueinfo",
+        "sigaltstack",
+        "restart_syscall",
+        "set_tid_address",
+        "set_robust_list",
+        "get_robust_list",
+        "rseq",
+        "futex",
+        "futex_waitv",
+        "sched_yield",
+        "sched_getaffinity",
+        "sched_setaffinity",
+        "sched_getscheduler",
+        "sched_getparam",
+        "sched_getattr",
+        "sched_get_priority_max",
+        "sched_get_priority_min",
+        "getpriority",
+        "setpriority",
+        "getrusage",
+        "times",
+        "getrlimit",
+        "setrlimit",
+        "prlimit64",
+        "pidfd_open",
+        "pidfd_send_signal"
+      ],
+      "action": "SCMP_ACT_ALLOW"
+    },
+    {
+      "comment": "Memory, runtime initialization and sandbox installation.",
+      "names": [
+        "brk",
+        "mmap",
+        "munmap",
+        "mremap",
+        "mprotect",
+        "madvise",
+        "mincore",
+        "msync",
+        "mlock",
+        "munlock",
+        "membarrier",
+        "memfd_create",
+        "arch_prctl",
+        "prctl",
+        "seccomp",
+        "capget",
+        "capset",
+        "chroot",
+        "uname",
+        "sysinfo",
+        "getrandom",
+        "getcpu",
+        "clock_gettime",
+        "clock_getres",
+        "clock_nanosleep",
+        "gettimeofday",
+        "time",
+        "nanosleep",
+        "getitimer",
+        "setitimer",
+        "alarm",
+        "timer_create",
+        "timer_settime",
+        "timer_gettime",
+        "timer_delete",
+        "get_mempolicy"
+      ],
+      "action": "SCMP_ACT_ALLOW"
+    },
+    {
+      "comment": "Event loops, desktop IPC, X11 and audio.",
+      "names": [
+        "pipe",
+        "pipe2",
+        "poll",
+        "ppoll",
+        "select",
+        "pselect6",
+        "epoll_create",
+        "epoll_create1",
+        "epoll_ctl",
+        "epoll_wait",
+        "epoll_pwait",
+        "epoll_pwait2",
+        "eventfd",
+        "eventfd2",
+        "signalfd",
+        "signalfd4",
+        "timerfd_create",
+        "timerfd_settime",
+        "timerfd_gettime",
+        "inotify_init",
+        "inotify_init1",
+        "inotify_add_watch",
+        "inotify_rm_watch",
+        "ioctl",
+        "shmget",
+        "shmat",
+        "shmdt",
+        "shmctl",
+        "semget",
+        "semop",
+        "semtimedop",
+        "semctl"
+      ],
+      "action": "SCMP_ACT_ALLOW"
+    },
+    {
+      "comment": "Operations on established network and desktop sockets.",
+      "names": [
+        "connect",
+        "bind",
+        "listen",
+        "accept",
+        "accept4",
+        "getsockname",
+        "getpeername",
+        "setsockopt",
+        "getsockopt",
+        "sendto",
+        "recvfrom",
+        "sendmsg",
+        "recvmsg",
+        "sendmmsg",
+        "recvmmsg",
+        "shutdown"
+      ],
+      "action": "SCMP_ACT_ALLOW"
+    },
+    {
+      "comment": "Unix, IPv4, IPv6 or kernel network information.",
+      "names": [
+        "socket"
+      ],
+      "action": "SCMP_ACT_ALLOW",
+      "args": [
+        {
+          "index": 0,
+          "value": 1,
+          "op": "SCMP_CMP_EQ"
+        }
+      ]
+    },
+    {
+      "comment": "Unix, IPv4, IPv6 or kernel network information.",
+      "names": [
+        "socket"
+      ],
+      "action": "SCMP_ACT_ALLOW",
+      "args": [
+        {
+          "index": 0,
+          "value": 2,
+          "op": "SCMP_CMP_EQ"
+        }
+      ]
+    },
+    {
+      "comment": "Unix, IPv4, IPv6 or kernel network information.",
+      "names": [
+        "socket"
+      ],
+      "action": "SCMP_ACT_ALLOW",
+      "args": [
+        {
+          "index": 0,
+          "value": 10,
+          "op": "SCMP_CMP_EQ"
+        }
+      ]
+    },
+    {
+      "comment": "Unix, IPv4, IPv6 or kernel network information.",
+      "names": [
+        "socket"
+      ],
+      "action": "SCMP_ACT_ALLOW",
+      "args": [
+        {
+          "index": 0,
+          "value": 16,
+          "op": "SCMP_CMP_EQ"
+        }
+      ]
+    },
+    {
+      "comment": "Local IPC pairs.",
+      "names": [
+        "socketpair"
+      ],
+      "action": "SCMP_ACT_ALLOW",
+      "args": [
+        {
+          "index": 0,
+          "value": 1,
+          "op": "SCMP_CMP_EQ"
+        }
+      ]
+    },
+    {
+      "comment": "Permit thread creation and user, PID, IPC and network namespaces. Exclude mount, cgroup, UTS and time namespaces.",
+      "names": [
+        "clone",
+        "unshare"
+      ],
+      "action": "SCMP_ACT_ALLOW",
+      "args": [
+        {
+          "index": 0,
+          "value": 100794496,
+          "valueTwo": 0,
+          "op": "SCMP_CMP_MASKED_EQ"
+        }
+      ]
+    },
+    {
+      "comment": "Allow libc to fall back to the flag-filtered clone interface.",
+      "names": [
+        "clone3"
+      ],
+      "action": "SCMP_ACT_ERRNO",
+      "errnoRet": 38
+    }
+  ]
+}

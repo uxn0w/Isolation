@@ -1,0 +1,6 @@
+# APT package names to install, one per line.
+code
+firefox-esr
+
+# Optional application example.
+# mousepad

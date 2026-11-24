@@ -1,0 +1,10 @@
+listen_addresses = ['127.0.0.1:53']
+server_names = ['cloudflare']
+force_tcp = true
+proxy = 'socks5://127.0.0.1:1080'
+netprobe_timeout = 0
+ignore_system_dns = true
+
+[static.cloudflare]
+# Cloudflare's published IPv4 DoH endpoint on TCP 443.
+stamp = 'sdns://AgcAAAAAAAAABzEuMC4wLjEAEmRucy5jbG91ZGZsYXJlLmNvbQovZG5zLXF1ZXJ5'

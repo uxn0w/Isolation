@@ -1,0 +1,35 @@
+table inet app_isolation
+flush table inet app_isolation
+
+table inet app_isolation {
+    chain redirect_tcp {
+        type nat hook output priority -90; policy accept;
+        # Keep local services and the SSH transport out of the TCP redirector.
+        ip daddr 127.0.0.0/8 return
+        meta skuid 1001 return
+        ip protocol tcp redirect to :12345
+    }
+
+    chain outbound {
+        type filter hook output priority filter; policy drop;
+        oifname "lo" ip daddr 127.0.0.1 accept
+        ip daddr 127.0.0.1 tcp dport 12345 ct status dnat accept
+        ip saddr 127.0.0.1 tcp sport 12345 ct status dnat ct direction reply accept
+        # Docker's resolver is available only to the gateway's endpoint lookup.
+        oifname "lo" ip daddr 127.0.0.11 meta skuid 0 accept
+        meta skuid 1001 ip daddr $ssh_ip tcp dport $ssh_port accept
+        tcp sport 14500 ct direction reply ct state established accept
+        counter drop
+    }
+
+    chain inbound {
+        type filter hook input priority filter; policy drop;
+        iifname "lo" accept
+        ct state established,related accept
+        tcp dport 14500 accept
+    }
+
+    chain forwarded {
+        type filter hook forward priority filter; policy drop;
+    }
+}

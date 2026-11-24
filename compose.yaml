@@ -1,0 +1,92 @@
+name: app-isolation
+
+services:
+  ssh-proxy:
+    build:
+      context: .
+      target: ssh-proxy
+    init: true
+    restart: "on-failure:3"
+    cap_add: [NET_ADMIN]
+    security_opt:
+      - no-new-privileges:true
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "1"
+      net.ipv6.conf.default.disable_ipv6: "1"
+    ports:
+      - "127.0.0.1:14500:14500"
+    environment:
+      SSH_PROXY_HOST: ${DOCKER_GUI_SSH_HOST:-}
+      SSH_PROXY_PORT: ${DOCKER_GUI_SSH_PORT:-22}
+      SSH_PROXY_USER: ${DOCKER_GUI_SSH_USER:-}
+      SSH_PROXY_HOST_KEY: ${DOCKER_GUI_SSH_HOST_KEY:-}
+    secrets:
+      - ssh_password
+    volumes:
+      - ssh-known-hosts:/var/lib/ssh-proxy
+    healthcheck:
+      test: [CMD, /usr/local/bin/check-ssh-gateway]
+      interval: 4s
+      timeout: 5s
+      retries: 15
+
+  desktop:
+    container_name: applications
+    build:
+      context: .
+      args:
+        DOCKER_GUI_LANG: ${DOCKER_GUI_LANG:-en_US.UTF-8}
+    init: true
+    network_mode: service:ssh-proxy
+    cap_drop: [ALL]
+    # The existing seccomp profile permits chroot for the application sandboxes.
+    cap_add: [SYS_CHROOT]
+    shm_size: 1gb
+    depends_on:
+      ssh-proxy:
+        condition: service_healthy
+        restart: true
+    environment:
+      TZ: ${DOCKER_GUI_TZ:-UTC}
+      LANG: ${DOCKER_GUI_LANG:-en_US.UTF-8}
+      DOCKER_GUI_SOCKS_PROXY: 127.0.0.1:1080
+      ALL_PROXY: socks5h://127.0.0.1:1080
+      NO_PROXY: localhost,127.0.0.1,::1
+      # Xpra's macOS client reports its window size in points, even with a 2x backing surface.
+      XPRA_DOWNSCALE: "0"
+    secrets:
+      - xpra_password
+    tmpfs:
+      - /tmp:mode=1777
+      - /run/user/1000:mode=0700,uid=1000,gid=1000
+    security_opt:
+      - no-new-privileges:true
+      # Project syscall allowlist for the desktop applications and their sandboxes.
+      - seccomp=./configs/seccomp.json
+    volumes:
+      - type: bind
+        source: ./configs/gateway/resolv.conf
+        target: /etc/resolv.conf
+        read_only: true
+      - desktop-home:/home/desktop
+      - type: bind
+        source: ./Shared
+        target: /workspace
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: [CMD, xpra, version, tcp://127.0.0.1:14500/, "--challenge-handlers=file:filename=/run/secrets/xpra_password"]
+      start_period: 15s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  desktop-home:
+  ssh-known-hosts:
+
+secrets:
+  ssh_password:
+    environment: DOCKER_GUI_SSH_PASSWORD
+  xpra_password:
+    file: ./.local/xpra-password

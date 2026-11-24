@@ -1,0 +1,14 @@
+*
+!Dockerfile
+!configs/
+!configs/apps.list
+!configs/firefox-policies.json
+!configs/gateway/
+!configs/gateway/firewall.nft
+!configs/gateway/redsocks.conf
+!configs/gateway/dnscrypt-proxy.toml
+!scripts/
+!scripts/private/
+!scripts/private/start-session.sh
+!scripts/private/start-ssh-proxy.sh
+!scripts/private/check-ssh-gateway.sh
